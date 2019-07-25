@@ -1,24 +1,17 @@
 import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import {Grommet} from 'grommet';
+import './assets/App.css';
+
+import UrlViewer from './components/urlViewer'
+import UrlForm from './components/urlForm';
 
 function App() {
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <Grommet>
+        <UrlViewer />
+        <UrlForm/>
+      </Grommet>
     </div>
   );
 }
