@@ -1,17 +1,22 @@
 import React from 'react';
 import {Grommet} from 'grommet';
 import './assets/App.css';
+import {Provider} from 'unstated';
 
-import UrlViewer from './components/urlViewer'
+import Header from './components/Header';
+import UrlViewer from './components/urlViewer';
 import UrlForm from './components/urlForm';
 
 function App() {
   return (
     <div className="App">
-      <Grommet>
-        <UrlViewer />
-        <UrlForm/>
-      </Grommet>
+      <Provider>
+        <Grommet>
+          <Header />
+          <UrlForm />
+          <UrlViewer/>
+        </Grommet>
+      </Provider>
     </div>
   );
 }
