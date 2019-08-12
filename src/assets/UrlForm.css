@@ -1,0 +1,7 @@
+.UrlForm {
+  text-align: center;
+  bottom: 30px;
+  right: 20px;
+  z-index: 1;
+  position: fixed;
+}
