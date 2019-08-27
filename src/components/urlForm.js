@@ -1,6 +1,6 @@
 import React from 'react';
-import {Layer, Form, Button, FormField, Box, TextInput} from 'grommet';
 import '../assets/UrlForm.css';
+import { Box, Button, TextField } from '@material-ui/core'
 
 import firebase from '../firestore/firestore'
 
@@ -12,7 +12,7 @@ export default class UrlForm extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      urlData : '',
+      url : '',
       title : '',
     };
     this.handleChange = this.handleChange.bind(this);
@@ -20,24 +20,23 @@ export default class UrlForm extends React.Component {
     this.addUrl = this.addUrl.bind(this);
   }
   
-  handleChange = (event) => {
+  handleChange = name => event => {
     this.setState(
-      { [event.target.name] : event.target.value }
+      { [name] : event.target.value }
     )
   }
 
-  handleSubmit = (event) => {
-    event.preventDefault();
+  handleSubmit = event => {
     this.addUrl();
   }
 
-  addUrl = () => {
+  addUrl = test => {
     db
     .collection('test')
     .doc('v1')
     .collection('DocLists')
     .add({
-        url: this.state.urlData,
+        url: this.state.url,
         title: this.state.title,
     })
     .then((doc) => {
@@ -51,7 +50,7 @@ export default class UrlForm extends React.Component {
   paste = () => {
     navigator.clipboard.readText()
     .then(text => this.setState(() => {
-      return { urlData : text }
+      return { url : text }
     }, this.forceUpdate))
   } 
   
@@ -60,30 +59,29 @@ export default class UrlForm extends React.Component {
     //ツイッターのような投稿ボタンを押すとクリップボードにあるurlを自動的にフォームに入れたものが出現する
     return (
       <div className="UrlForm">
-        <Form onSubmit={this.handleSubmit}>
-          <Box>
-            <FormField
-              name="url"
-              label="url"
-              type="text"
-              gridArea='nav'
-              onChange={this.handleChange}
-            >
-              <TextInput value={this.state.urlData} name='urlData' onChange={this.handleChange}/>
-            </FormField>
-            <FormField
-              name="title"
-              label="title"
-              type="text"
-            >
-              <TextInput value={this.state.title} name='title' onChange={this.handleChange}/>
-            </FormField>
-          </Box>
-          <Box>
-            <Button onClick={() => {this.paste()}} color="accent-4" label = "paste" />
-            <Button type="submit" gridArea='main' label="Submit" />
-          </Box>
-        </Form>
+        <form>
+            <TextField 
+              required
+              id="url-form"
+              label="url" 
+              value={this.state.url} 
+              onChange={this.handleChange('url')}
+              margin="normal"
+            />
+            <br/>
+            <TextField 
+              id="url-form"
+              label="title" 
+              value={this.state.title} 
+              onChange={this.handleChange('title')}
+              margin="normal"
+            />
+            <br/>
+            <Box>
+              <Button onClick={() => {this.paste()}} color="primary">paste</Button>
+              <Button onClick={() => this.handleSubmit()}>submit</Button>
+            </Box>
+        </form>
       </div>
     );
   }

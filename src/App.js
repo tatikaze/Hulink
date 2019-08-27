@@ -1,24 +1,38 @@
 import React from 'react';
-import {Grommet} from 'grommet';
 import './assets/App.css';
-import {Provider} from 'unstated';
+import { Provider, Subscribe } from 'unstated';
 
 import Header from './components/Header';
 import UrlViewer from './components/urlViewer';
 import UrlForm from './components/urlForm';
 
-function App() {
-  return (
-    <div className="App">
-      <Provider>
-        <Grommet>
-          <Header />
-          <UrlForm />
-          <UrlViewer/>
-        </Grommet>
-      </Provider>
-    </div>
-  );
-}
+import UrlContainer from './firestore/urlContainer';
+import UserContainer from "./firestore/userContainer";
 
-export default App;
+
+export default class App extends React.Component {
+
+  renderContents = () => {
+    return (
+      <Subscribe to={[UrlContainer, UserContainer]}>
+        {(UrlContainer, UserContainer) => (
+          <div>
+            <Header UserContainer={UserContainer}/>
+            <UrlForm />
+            <UrlViewer UrlContainer={UrlContainer}/>
+          </div>
+        )}        
+      </Subscribe>
+    )
+  }
+
+  render() {
+    return (
+      <div className="App">
+        <Provider>
+          <this.renderContents />
+        </Provider>
+      </div>
+    );
+  }
+}
