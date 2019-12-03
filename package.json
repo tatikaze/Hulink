@@ -11,7 +11,8 @@
     "react-linkify": "^1.0.0-alpha",
     "react-scripts": "3.0.1",
     "styled-components": "^4.3.2",
-    "unstated": "^2.1.1"
+    "unstated": "^2.1.1",
+    "unstated-next": "^1.1.0"
   },
   "scripts": {
     "start": "react-scripts start",

@@ -1,43 +1,37 @@
-import React from 'react';
+import React, { useState } from 'react';
 import '../assets/UrlForm.css';
 import { Box, Button, TextField } from '@material-ui/core'
 
 import firebase from '../firestore/firestore'
 
-const db = firebase.firestore();
 
+export default () => {
 
-export default class UrlForm extends React.Component {
+  const db = firebase.firestore();
 
-  constructor(props) {
-    super(props);
-    this.state = {
-      url : '',
-      title : '',
-    };
-    this.handleChange = this.handleChange.bind(this);
-    this.handleSubmit = this.handleSubmit.bind(this);
-    this.addUrl = this.addUrl.bind(this);
-  }
+  const [link, setLink] = useState({
+    url : "",
+    title : "",
+  });
   
-  handleChange = name => event => {
-    this.setState(
-      { [name] : event.target.value }
-    )
+  const handleChange = (e) => {
+    const value = e.target.value;
+    const name = e.target.name;
+    setLink({ ...link, [name] : value })
   }
 
-  handleSubmit = event => {
-    this.addUrl();
+  const handleSubmit = () => {
+    addUrl();
   }
 
-  addUrl = test => {
+  const addUrl = () => {
     db
     .collection('test')
     .doc('v1')
     .collection('DocLists')
     .add({
-        url: this.state.url,
-        title: this.state.title,
+      url: link.url,
+      title: link.title,
     })
     .then((doc) => {
       console.log(`追加に成功しました (${doc.id})`);
@@ -47,42 +41,42 @@ export default class UrlForm extends React.Component {
     });
   }
 
-  paste = () => {
+  const paste = () => {
     navigator.clipboard.readText()
-    .then(text => this.setState(() => {
-      return { url : text }
-    }, this.forceUpdate))
+    .then(text => setLink(() => {
+      return { ...link, url : text }
+    }))
   } 
   
-  render() {
     //普段は投稿フォームを閉じておき、
     //ツイッターのような投稿ボタンを押すとクリップボードにあるurlを自動的にフォームに入れたものが出現する
-    return (
-      <div className="UrlForm">
-        <form>
-            <TextField 
-              required
-              id="url-form"
-              label="url" 
-              value={this.state.url} 
-              onChange={this.handleChange('url')}
-              margin="normal"
-            />
-            <br/>
-            <TextField 
-              id="url-form"
-              label="title" 
-              value={this.state.title} 
-              onChange={this.handleChange('title')}
-              margin="normal"
-            />
-            <br/>
-            <Box>
-              <Button onClick={() => {this.paste()}} color="primary">paste</Button>
-              <Button onClick={() => this.handleSubmit()}>submit</Button>
-            </Box>
-        </form>
-      </div>
-    );
-  }
+  return (
+    <div className="UrlForm">
+      <form>
+          <TextField 
+            required
+            id="url-form"
+            label="url"
+            name="url"
+            value={link.url} 
+            onChange={handleChange}
+            margin="normal"
+          />
+          <br/>
+          <TextField 
+            id="url-form"
+            label="title"
+            name="title"
+            value={link.title} 
+            onChange={handleChange}
+            margin="normal"
+          />
+          <br/>
+          <Box>
+            <Button onClick={() => {paste()}} color="primary">paste</Button>
+            <Button onClick={() => handleSubmit()}>submit</Button>
+          </Box>
+      </form>
+    </div>
+  );
 }

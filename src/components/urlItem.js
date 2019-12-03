@@ -1,9 +1,9 @@
 import React from 'react';
 import { Box } from '@material-ui/core';
 
-export default class UrlItem extends React.Component {
+export default (props) => {
 
-  renderTitle = (data) => {
+  const RenderTitle = (data) => {
     if(data.title === undefined) {
       return data.url;
     }else {
@@ -11,14 +11,21 @@ export default class UrlItem extends React.Component {
     }
   }
 
-  render () {
-    const item = this.props.item
+    const item = props.item
     return (
-      <Box pad='xlarge' border={{ color : "#00739D" }} margin="xsmall" height="xsmall">
-        <a href={item.data.url} target="_blank">
-          {this.renderTitle(item.data)}
+      <Box
+        pad='xlarge'
+        border={{ color : "#00739D" }} 
+        margin="xsmall" 
+        height="xsmall"
+      >
+        <a 
+          href={item.data.url} 
+          target="_blank" 
+          rel="noopener noreferrer"
+        >
+          {RenderTitle(item.data)}
         </a>
       </Box>
     )
-  }
 }

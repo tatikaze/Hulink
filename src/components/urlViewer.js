@@ -3,17 +3,15 @@ import '../assets/UrlViewer.css';
 
 import UrlList from './urlList';
 
+import { UrlContainer } from '../pages/Main';
 
-export default class UrlViewer extends React.Component {
-  // constructor() {
-  //   super();
-  // }
+export default () => {
 
-  render(){
-    return(
-      <div className="urlViewer">
-        <UrlList container={this.props.UrlContainer}/>
-      </div>
-    );
-  }
+  const container = UrlContainer.useContainer();
+
+  return(
+    <div className="urlViewer">
+      <UrlList container={container}/>
+    </div>
+  );
 }

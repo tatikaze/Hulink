@@ -1,40 +1,43 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import Button from '@material-ui/core/Button'
 import { Box } from '@material-ui/core';
 
-export default class Header extends React.Component {
+import { UserContainer } from '../pages/Main';
 
-  componentDidMount = () => {
-    this.props.UserContainer.changed();
-  }
 
-  renderUser = () => {
-    const UserContainer = this.props.UserContainer;
-    if(UserContainer.state.user != null) {
+export default () => {
+
+  const container = UserContainer.useContainer();
+
+  useEffect(() => {
+    container.changed();
+  }, [container]);
+
+  const RenderUser = () => {
+    if(container.user != null) {
       return (
-        <Button onClick={UserContainer.logout}>
+        <Button onClick={container.logout}>
           <p style={{float : 'left'}}>Logout</p>
           <img
-            src={UserContainer.state.user.photoURL}
+            src={container.user.photoURL}
             style={{float : "left", height: "40px"}}
+            alt="User Icon"
           />
         </Button>
       )
     } else {
       return (
-        <Button onClick={UserContainer.login}>Google Login</Button>
+        <Button onClick={container.login}>Google Login</Button>
       )
     }
   }
 
-  render () {
-    return (
-      <Box bgcolor="#cddc39" >
-        <h1 style={{color: '＃424242', float: "left", margin : '10px', marginLeft : '20px'}}>Hulink</h1>
-        <Box textAlign="right">
-          <this.renderUser />
-        </Box>
+  return (
+    <Box bgcolor="#cddc39" >
+      <h1 style={{color: '＃424242', float: "left", margin : '10px', marginLeft : '20px'}}>Hulink</h1>
+      <Box textAlign="right">
+        <RenderUser />
       </Box>
-    )
-  }
+    </Box>
+  )
 }
