@@ -5,23 +5,21 @@ import InfiniteScroll from 'react-infinite-scroll-component';
 import UrlItem from './urlItem';
 
 
-export default class UrlList extends React.Component {
+export default (props) => {
 
-  render() {
-    const store = this.props.container;
-    return (
-        <InfiniteScroll
-          dataLength={store.state.urls.length}
-          next={store.next()}
-          hasMore={store.state.is_full}
-          loader={<h4>...Loading Now</h4>}
-        >
-          {store.state.urls.map((i, index) => (
-            <UrlItem key={i.id}  item={i} />
-          ))}
-        </InfiniteScroll>
-      
-    );
-  }
+  const store = props.container;
 
+  return (
+      <InfiniteScroll
+        dataLength={store.urls}
+        next={store.next()}
+        hasMore={store.isFull}
+        loader={<h4>...Loading Now</h4>}
+      >
+        {store.urls.map((i, index) => (
+          <UrlItem key={i.id}  item={i} />
+        ))}
+      </InfiniteScroll>
+    
+  );
 }
