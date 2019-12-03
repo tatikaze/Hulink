@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import Button from '@material-ui/core/Button'
 import { Box } from '@material-ui/core';
 
@@ -9,9 +9,9 @@ export default () => {
 
   const container = UserContainer.useContainer();
 
-  //  componentDidMount = () => {
-  //    this.props.UserContainer.changed();
-  //  }
+  useEffect(() => {
+    container.changed();
+  }, [container]);
 
   const RenderUser = () => {
     if(container.user != null) {
@@ -21,6 +21,7 @@ export default () => {
           <img
             src={container.user.photoURL}
             style={{float : "left", height: "40px"}}
+            alt="User Icon"
           />
         </Button>
       )
